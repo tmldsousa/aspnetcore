@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using CoreSandbox.Domain.Data;
 
 namespace CoreSandbox
 {
@@ -27,6 +30,16 @@ namespace CoreSandbox
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Entity framework
+            var sqlConnectionString = Configuration.GetConnectionString("DataAccessPostgreSqlProvider");
+
+            services.AddDbContext<CoreSandboxContext>(options =>
+                options.UseNpgsql(
+                    sqlConnectionString,
+                    b => b.MigrationsAssembly("CoreSandbox.Domain")
+                )
+            );
+            
             // Add framework services.
             services.AddMvc();
         }
