@@ -7,12 +7,10 @@
   },
   "formation": {
   },
-  "addons": [
-
-  ],
+  "addons": [ "heroku-postgresql" ],
   "buildpacks": [
     {
-      "url": "https://github.com/jincod/dotnetcore-buildpack"
+      "url": "https://github.com/tmldsousa/dotnetcore-buildpack"
     }
   ]
 }
