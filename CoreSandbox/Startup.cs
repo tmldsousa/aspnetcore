@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using CoreSandbox.Domain.Data;
 
 namespace CoreSandbox
@@ -17,11 +16,31 @@ namespace CoreSandbox
     {
         public Startup(IHostingEnvironment env)
         {
+            // fix for heroku postgres add-on
+            var envDatabaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+            Console.WriteLine($"Environment 'DATABASE_URL'={envDatabaseUrl}");
+            if (!string.IsNullOrEmpty(envDatabaseUrl))
+            {
+                Console.WriteLine("This application seems to be hosted on heroku with PostgresSql add-on. Reading DATABASE_URL environment var.");
+
+                Uri dbUri = new Uri(envDatabaseUrl);
+                string host = dbUri.Host;
+                int port = dbUri.Port;
+                string database = dbUri.AbsolutePath.Substring(1);
+                string username = dbUri.UserInfo.Split(':')[0];
+                string password = dbUri.UserInfo.Split(':')[1];
+
+                string dbConnString = $"Host={host};Port={port};Database={database};Username={username};Password={password}";
+                Console.WriteLine($"New connection string: {dbConnString}");
+                Environment.SetEnvironmentVariable("ConnectionStrings:DataAccessPostgreSqlProvider", dbConnString);
+            }
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
