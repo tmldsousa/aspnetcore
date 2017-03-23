@@ -2,7 +2,7 @@
   "name": "aspnetcore",
   "description": "playing with asp.net core",
   "scripts": {
-    "postdeploy": "cd CoreSandbox.Domain && dotnet restore && dotnet ef database update"
+    "postdeploy": "dotnet restore && cd CoreSandbox.Domain && dotnet ef database update --startup-project ../CoreSandbox/CoreSandbox.csproj"
   },
   "env": {
   },

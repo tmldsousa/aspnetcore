@@ -10,11 +10,6 @@ namespace CoreSandbox.Domain.Data
             System.Console.WriteLine($"CoreSandboxContext - options = {options}");
         }
 
-        public CoreSandboxContext(DbContextOptions options) : base(options)
-        {
-            System.Console.WriteLine($"CoreSandboxContext - options = {options}");
-        }
-
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
