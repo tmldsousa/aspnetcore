@@ -18,7 +18,6 @@ namespace CoreSandbox
         {
             // fix for heroku postgres add-on
             var envDatabaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-            Console.WriteLine($"Environment 'DATABASE_URL'={envDatabaseUrl}");
             if (!string.IsNullOrEmpty(envDatabaseUrl))
             {
                 Console.WriteLine("This application seems to be hosted on heroku with PostgresSql add-on. Reading DATABASE_URL environment var.");
@@ -49,16 +48,16 @@ namespace CoreSandbox
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Console.WriteLine("Configuring services...");
             // Entity framework
             var sqlConnectionString = Configuration.GetConnectionString("DataAccessPostgreSqlProvider");
 
             services.AddDbContext<CoreSandboxContext>(options =>
                 options.UseNpgsql(
-                    sqlConnectionString,
-                    b => b.MigrationsAssembly("CoreSandbox.Domain")
+                    sqlConnectionString
                 )
             );
-            
+
             // Add framework services.
             services.AddMvc();
         }

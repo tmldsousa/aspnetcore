@@ -5,9 +5,15 @@ namespace CoreSandbox.Domain.Data
 {
     public class CoreSandboxContext : DbContext
     {
-        public CoreSandboxContext() : base() { }
+        public CoreSandboxContext(DbContextOptions<CoreSandboxContext> options) : base(options)
+        {
+            System.Console.WriteLine($"CoreSandboxContext - options = {options}");
+        }
 
-        public CoreSandboxContext(DbContextOptions<CoreSandboxContext> options) : base(options) { }
+        public CoreSandboxContext(DbContextOptions options) : base(options)
+        {
+            System.Console.WriteLine($"CoreSandboxContext - options = {options}");
+        }
 
         public DbSet<User> Users { get; set; }
 
