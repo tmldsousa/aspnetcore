@@ -30,7 +30,6 @@ namespace CoreSandbox
                 string password = dbUri.UserInfo.Split(':')[1];
 
                 string dbConnString = $"Host={host};Port={port};Database={database};Username={username};Password={password}";
-                Console.WriteLine($"New connection string: {dbConnString}");
                 Environment.SetEnvironmentVariable("ConnectionStrings:DataAccessPostgreSqlProvider", dbConnString);
             }
 
@@ -48,7 +47,6 @@ namespace CoreSandbox
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine("Configuring services...");
             // Entity framework
             var sqlConnectionString = Configuration.GetConnectionString("DataAccessPostgreSqlProvider");
 
