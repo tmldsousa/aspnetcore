@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
 
 namespace CoreSandbox
 {
@@ -38,6 +39,11 @@ namespace CoreSandbox
             loggerFactory.AddDebug();
 
             app.UseMvc();
-        }
+			
+			app.Use(async (context, next) =>
+			{
+				await context.Response.WriteAsync("Hello world!");
+			});
+		}
     }
 }
