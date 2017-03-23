@@ -1,2 +1,2 @@
 # aspnetcore
-Playing with asp.net core
+Playing with asp.net core and entity framework
