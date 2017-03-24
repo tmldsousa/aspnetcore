@@ -5,13 +5,18 @@
     "postdeploy": "dotnet restore && cd CoreSandbox && dotnet ef database update --project ../CoreSandbox.Domain"
   },
   "env": {
+    "PROJECT": {
+      "description": "The main project, that contains the web application to be run",
+      "value": "CoreSandbox/CoreSandbox.csproj",
+      "required": true
+    }
   },
   "formation": {
   },
   "addons": [ "heroku-postgresql" ],
   "buildpacks": [
     {
-      "url": "https://github.com/tmldsousa/dotnet-buildpack"
+      "url": "https://github.com/tmldsousa/dotnet-buildpack.git#move-to-msbuild"
     }
   ]
 }
